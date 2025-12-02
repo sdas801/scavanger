@@ -1,0 +1,2 @@
+/home/santanu/Official/Projects/Scavenger/scavanger-mobile/android/app/.cxx/Debug/4z4w6m1j/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/santanu/Official/Projects/Scavenger/scavanger-mobile/android/app/.cxx/Debug/4z4w6m1j/armeabi-v7a/CMakeFiles/rebuild_cache.dir

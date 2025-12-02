@@ -1,0 +1,1 @@
+/home/santanu/Official/Projects/Scavenger/scavanger-mobile/build/app/intermediates/cxx/RelWithDebInfo/3n413c3o/obj/x86

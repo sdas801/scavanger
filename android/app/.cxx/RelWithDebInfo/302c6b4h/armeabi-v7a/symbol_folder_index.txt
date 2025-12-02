@@ -1,0 +1,1 @@
+/home/santanu/Official/Project/Scavanger/scavanger-mobile/build/app/intermediates/cxx/RelWithDebInfo/302c6b4h/obj/armeabi-v7a

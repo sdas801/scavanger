@@ -1,0 +1,1 @@
+/home/santanu/Official/Projects/Scavenger/scavanger-mobile/build/app/intermediates/cxx/Debug/4z4w6m1j/obj/arm64-v8a
