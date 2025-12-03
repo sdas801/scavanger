@@ -113,6 +113,7 @@ class _ChallengeItemPageState extends State<ChallengeItemPage> {
       "offset": 0,
     };
     ApiService.getMyItems(reqData).then((value) {
+      if (!mounted) return;
       if (value.success) {
         var myItem = List<ItemList>.from(
             value.response.map((x) => ItemList.fromJson(x)));

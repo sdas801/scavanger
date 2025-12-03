@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:scavenger_app/Dependency_injection.dart';
 import 'package:scavenger_app/HomeScreen.dart';
 import 'package:scavenger_app/networkcheck.dart';
@@ -68,6 +69,7 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
 }
 
 void main() async {
+  // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

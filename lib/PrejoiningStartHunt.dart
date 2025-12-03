@@ -110,6 +110,7 @@ class _PrejoiningStartHuntState extends State<PrejoiningStartHunt>
     _stopPeriodicRefresh();
     _timer?.cancel();
     _timer1?.cancel();
+    _tabController.dispose();
     _unreadChat.dispose();
     ChatSocketService().disconnect();
     super.dispose();

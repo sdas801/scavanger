@@ -153,93 +153,96 @@ class _SubcriptionState extends State<Subcription> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            // padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _buildSectionHeader(
-                        title: 'Choose the plan that\'s right for you',
-                        description:
-                            'Join StreamVibe and select from our flexible subscription options tailored to suit your viewing preferences.',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 220,
-                            height: 60,
-                            padding: const EdgeInsets.all(5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(12),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _buildSectionHeader(
+                      title: 'Choose the plan that\'s right for you',
+                      description:
+                          'Join StreamVibe and select from our flexible subscription options tailored to suit your viewing preferences.',
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 220,
+                          height: 60,
+                          child: DecoratedBox(
                             decoration: BoxDecoration(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                _buildToggleButton('Monthly', isMonthly),
-                                _buildToggleButton('Yearly', !isMonthly)
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _buildToggleButton('Monthly', isMonthly),
+                                  _buildToggleButton('Yearly', !isMonthly)
+                                ],
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children:
-                            subcriptionListMonthly.asMap().entries.map((entry) {
-                          if (isMonthly && entry.value.priceMonthly != null) {
-                            return _buildPlanCard(
-                                entry.value, isMonthly, entry.key);
-                          } else if (!isMonthly &&
-                              entry.value.priceAnnually != null) {
-                            return _buildPlanCard(
-                                entry.value, isMonthly, entry.key);
-                          } else if (entry.value.priceAnnually == null &&
-                              entry.value.priceMonthly == null) {
-                            return _buildPlanCard(
-                                entry.value, isMonthly, entry.key);
-                          } else if (entry.value.priceAnnually != null &&
-                              entry.value.priceMonthly != null) {
-                            return _buildPlanCard(
-                                entry.value, isMonthly, entry.key);
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        }).toList(),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ),
-                //  =============================================================================================================================
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.indigo[900]!, // Deep color
-                        const Color.fromARGB(
-                            255, 251, 251, 252)!, // Lighter color
+                        ),
                       ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
                     ),
-                    borderRadius: BorderRadius.circular(16),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Column(
+                      children:
+                          subcriptionListMonthly.asMap().entries.map((entry) {
+                        if (isMonthly && entry.value.priceMonthly != null) {
+                          return _buildPlanCard(
+                              entry.value, isMonthly, entry.key);
+                        } else if (!isMonthly &&
+                            entry.value.priceAnnually != null) {
+                          return _buildPlanCard(
+                              entry.value, isMonthly, entry.key);
+                        } else if (entry.value.priceAnnually == null &&
+                            entry.value.priceMonthly == null) {
+                          return _buildPlanCard(
+                              entry.value, isMonthly, entry.key);
+                        } else if (entry.value.priceAnnually != null &&
+                            entry.value.priceMonthly != null) {
+                          return _buildPlanCard(
+                              entry.value, isMonthly, entry.key);
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      }).toList(),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+              //  =============================================================================================================================
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.indigo[900]!, // Deep color
+                      const Color.fromARGB(
+                          255, 251, 251, 252)!, // Lighter color
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(12),
                   child: Column(
                     children: [
                       const SizedBox(
@@ -251,64 +254,75 @@ class _SubcriptionState extends State<Subcription> {
                             'Join StreamVibe and select from our flexible subscription options tailored to suit your viewing preferences. Get ready for non-stop entertainment!',
                       ),
                       const SizedBox(height: 20),
-                      Container(
+                      SizedBox(
                         height: 60,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 40,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: filteredPlans.length,
-                                itemBuilder: (context, index) {
-                                  final plan = filteredPlans[index];
-                                  final isSelected =
-                                      selectedPlan?.id == plan.id;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedPlan = plan;
-                                      });
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 10),
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? const Color(0xFF0000A0)
-                                            : Colors.grey[300],
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        plan.name,
-                                        style: TextStyle(
-                                          color: isSelected
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontWeight: FontWeight.bold,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 40,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: filteredPlans.length,
+                                    itemBuilder: (context, index) {
+                                      final plan = filteredPlans[index];
+                                      final isSelected =
+                                          selectedPlan?.id == plan.id;
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedPlan = plan;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? const Color(0xFF0000A0)
+                                                  : Colors.grey[300],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 10),
+                                              child: Text(
+                                                plan.name,
+                                                style: TextStyle(
+                                                  color: isSelected
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       //
-                      Container(
+                      DecoratedBox(
                           // height: 450,
                           decoration: BoxDecoration(
                             color: const Color(0xFFE9E3E3),
@@ -470,9 +484,9 @@ class _SubcriptionState extends State<Subcription> {
                       const SizedBox(height: 24),
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -511,404 +525,449 @@ class _SubcriptionState extends State<Subcription> {
 
     return Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8),
-        child: Container(
-          height: 210,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(image), // Use AssetImage, not Image.asset
-              fit: BoxFit.cover, // Ensures the image covers the container
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(
-                    top: 10, left: 20, right: 20, bottom: 10),
-                child: Row(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            var width = constraints.maxWidth;
+            return SizedBox(
+              height: 210,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(image), // Use AssetImage, not Image.asset
+                    fit: BoxFit.cover, // Ensures the image covers the container
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 50,
-                      child: Center(
-                          child: Column(
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, left: 20, right: 20, bottom: 10),
+                      child: Row(
                         children: [
-                          Image.asset(
-                            'assets/images/Award.png',
-                            fit: BoxFit.contain, // Adjust based on your needs
-                            width: 80, // Optional: control image size
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            d.name,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      )),
-                    ),
-                    const SizedBox(
-                      width: 50,
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 40,
-                            child: isMonthly
-                                ? Row(
-                                    children: [
-                                      d.priceMonthly != null
-                                          ? Row(
-                                              children: [
-                                                Text(
-                                                  "\$${d.priceMonthly?.toStringAsFixed(2) ?? '0.00'}",
-                                                  style: const TextStyle(
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 8),
-                                                const Text(
-                                                  "/ month",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          : const SizedBox()
-                                    ],
-                                  )
-                                : Row(
-                                    children: [
-                                      d.priceAnnually != null
-                                          ? Row(
-                                              children: [
-                                                Text(
-                                                  "\$${d.priceAnnually?.toStringAsFixed(2) ?? '0.00'}",
-                                                  style: const TextStyle(
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 8),
-                                                const Text(
-                                                  "/ year",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          : const SizedBox()
-                                    ],
-                                  ),
-                          ),
-                          Container(
-                            height: 40,
-                            child: Align(
-                              alignment: Alignment
-                                  .centerLeft, // Align text to the start (left)
-                              child: Text(
-                                (d.description ?? '').length > 60
-                                    ? '${d.description?.substring(0, 60)}...'
-                                    : d.description ?? '',
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
+                          SizedBox(
+                            width: width * (15 / 100),
+                            child: Center(
+                                child: Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/Award.png',
+                                  fit: BoxFit
+                                      .contain, // Adjust based on your needs
+                                  width: width *
+                                      (15 /
+                                          100), // Optional: control image size
                                 ),
-                              ),
-                            ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  d.name,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            )),
                           ),
-                          d.name == "Free" || !isRenew
-                              ? const SizedBox(
-                                  height: 20,
-                                )
-                              : SizedBox(),
-                          isCurrentPlan
-                              ? const Text(
-                                  "This is your current plan",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 250, 249, 248),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              : const SizedBox(),
-                          const SizedBox(height: 32),
-                          d.name == "Free"
-                              ? SizedBox()
-                              : isCurrentPlan
-                                  // (SubcriptionCheck?.is_renew == 1)
-                                  ? isRenew
-                                      ? ElevatedButton(
-                                          onPressed: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              builder: (context) => Wrap(
-                                                children: [
-                                                  cancelSubcription(
-                                                      id: d.id,
-                                                      name: d.name,
-                                                      description:
-                                                          d.description ?? "",
-                                                      price: isMonthly
-                                                          ? d.priceMonthly
-                                                                  ?.toStringAsFixed(
-                                                                      2) ??
-                                                              '0.00'
-                                                          : d.priceAnnually
-                                                                  ?.toStringAsFixed(
-                                                                      2) ??
-                                                              '0.00',
-                                                      isMonthly: isMonthly,
-                                                      maxHuntsTeam:
-                                                          d.maxHuntTeams,
-                                                      maxChallenges:
-                                                          d.maxChallengeItems,
-                                                      maxcreatedItem:
-                                                          d.maxCreatedItems,
-                                                      maxhuntitem:
-                                                          d.maxHuntItems,
-                                                      purchased:
-                                                          d.maxPurchasedItems,
-                                                      image: image,
-                                                      maxHunts: d.maxHunts,
-                                                      maxChallenge:
-                                                          d.maxChallenge,
-                                                      videoAvailable:
-                                                          d.videoAvailable,
-                                                      isRelaunch: d.isRelaunch,
-                                                      stripe_id:
-                                                          SubcriptionCheck!
-                                                              .stripe_id,
-                                                      endDate: SubcriptionCheck!
-                                                          .expiryDate)
-                                                ],
-                                              ),
-                                            ).whenComplete(() {
-                                              print('completed');
-                                              _getSubcriptionDetails();
-                                            });
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 6),
-                                            backgroundColor: Colors.white,
-                                            shadowColor: Colors.transparent,
-                                            foregroundColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                          ),
-                                          child: const Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                'Cancel Subcription',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color.fromARGB(
-                                                      255,
-                                                      218,
-                                                      55,
-                                                      55), // Text is black on white/gradient background
-                                                ),
-                                              ),
-                                              SizedBox(width: 4),
-                                              Icon(
-                                                Icons.arrow_forward,
-                                                size: 16,
-                                                color: Color.fromARGB(
-                                                    255, 218, 55, 55),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      : SizedBox()
-                                  : Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        // Plan Details Button (Blue)
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SubscriptionPlanCard(
-                                                          plandata: d,
-                                                          isMonthly: isMonthly,
-                                                          isMonthlyBuyCheck:
-                                                              isMonthlyBuyCheck,
-                                                          detailsImage:
-                                                              detailsImage,
-                                                        )));
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(
-                                                0xFF0000D6), // Deep blue color
-                                            foregroundColor: Colors.white,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 6),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                          ),
-                                          child: const Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: const [
-                                              Text(
-                                                'Plan Details',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                              SizedBox(width: 4),
-                                              Icon(
-                                                Icons.arrow_forward,
-                                                size: 16,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                            width: 16), // Space between buttons
-                                        d.name == "Free"
-                                            ? const SizedBox()
-                                            : isMonthlyBuyCheck
-                                                ? const SizedBox()
-                                                : Flexible(
-                                                    child: ElevatedButton(
-                                                      onPressed: () {
-                                                        showModalBottomSheet(
-                                                          context: context,
-                                                          isScrollControlled:
-                                                              true,
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          builder: (context) =>
-                                                              Wrap(
-                                                            children: [
-                                                              ChooseSubcriptionPlan(
-                                                                  id: d.id,
-                                                                  name: d.name,
-                                                                  description:
-                                                                      d.description ??
-                                                                          "",
-                                                                  price: isMonthly
-                                                                      ? d.priceMonthly?.toStringAsFixed(2) ??
-                                                                          '0.00'
-                                                                      : d.priceAnnually?.toStringAsFixed(
-                                                                              2) ??
-                                                                          '0.00',
-                                                                  isMonthly:
-                                                                      isMonthly,
-                                                                  maxHuntsTeam: d
-                                                                      .maxHuntTeams,
-                                                                  maxChallenges: d
-                                                                      .maxChallengeItems,
-                                                                  maxcreatedItem: d
-                                                                      .maxCreatedItems,
-                                                                  maxhuntitem: d
-                                                                      .maxHuntItems,
-                                                                  purchased: d
-                                                                      .maxPurchasedItems,
-                                                                  image: image,
-                                                                  maxHunts: d
-                                                                      .maxHunts,
-                                                                  maxChallenge: d
-                                                                      .maxChallenge,
-                                                                  videoAvailable: d
-                                                                      .videoAvailable,
-                                                                  isRelaunch: d
-                                                                      .isRelaunch),
-                                                            ],
-                                                          ),
-                                                        ).whenComplete(() {
-                                                          print('completed');
-                                                          _getSubcriptionDetails();
-                                                        });
-                                                      },
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 8,
-                                                                vertical: 6),
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        shadowColor:
-                                                            Colors.transparent,
-                                                        foregroundColor:
-                                                            Colors.white,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
+                          SizedBox(
+                            width: width * (5 / 100),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: isMonthly
+                                      ? Row(
+                                          children: [
+                                            d.priceMonthly != null
+                                                ? Row(
+                                                    children: [
+                                                      Text(
+                                                        "\$${d.priceMonthly?.toStringAsFixed(2) ?? '0.00'}",
+                                                        style: const TextStyle(
+                                                          fontSize: 28,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
                                                         ),
                                                       ),
-                                                      child: const Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: const [
-                                                          Text(
-                                                            'Buy Plan',
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors
-                                                                  .black, // Text is black on white/gradient background
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 4),
-                                                          Icon(
-                                                              Icons
-                                                                  .arrow_forward,
-                                                              size: 16,
-                                                              color:
-                                                                  Colors.black),
-                                                        ],
+                                                      const SizedBox(width: 8),
+                                                      const Text(
+                                                        "/ month",
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : const SizedBox()
+                                          ],
+                                        )
+                                      : Row(
+                                          children: [
+                                            d.priceAnnually != null
+                                                ? Row(
+                                                    children: [
+                                                      Text(
+                                                        "\$${d.priceAnnually?.toStringAsFixed(2) ?? '0.00'}",
+                                                        style: const TextStyle(
+                                                          fontSize: 28,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 8),
+                                                      const Text(
+                                                        "/ year",
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : const SizedBox()
+                                          ],
+                                        ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: Align(
+                                    alignment: Alignment
+                                        .centerLeft, // Align text to the start (left)
+                                    child: Text(
+                                      (d.description ?? '').length > 60
+                                          ? '${d.description?.substring(0, 60)}...'
+                                          : d.description ?? '',
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                d.name == "Free" || !isRenew
+                                    ? const SizedBox(
+                                        height: 20,
+                                      )
+                                    : SizedBox(),
+                                isCurrentPlan
+                                    ? const Text(
+                                        "This is your current plan",
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 250, 249, 248),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    : const SizedBox(),
+                                const SizedBox(height: 32),
+                                d.name == "Free"
+                                    ? SizedBox()
+                                    : isCurrentPlan
+                                        // (SubcriptionCheck?.is_renew == 1)
+                                        ? isRenew
+                                            ? ElevatedButton(
+                                                onPressed: () {
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    isScrollControlled: true,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    builder: (context) => Wrap(
+                                                      children: [
+                                                        cancelSubcription(
+                                                            id: d.id,
+                                                            name: d.name,
+                                                            description: d.description ??
+                                                                "",
+                                                            price: isMonthly
+                                                                ? d.priceMonthly
+                                                                        ?.toStringAsFixed(
+                                                                            2) ??
+                                                                    '0.00'
+                                                                : d.priceAnnually
+                                                                        ?.toStringAsFixed(
+                                                                            2) ??
+                                                                    '0.00',
+                                                            isMonthly:
+                                                                isMonthly,
+                                                            maxHuntsTeam:
+                                                                d.maxHuntTeams,
+                                                            maxChallenges: d
+                                                                .maxChallengeItems,
+                                                            maxcreatedItem: d
+                                                                .maxCreatedItems,
+                                                            maxhuntitem:
+                                                                d.maxHuntItems,
+                                                            purchased: d
+                                                                .maxPurchasedItems,
+                                                            image: image,
+                                                            maxHunts:
+                                                                d.maxHunts,
+                                                            maxChallenge:
+                                                                d.maxChallenge,
+                                                            videoAvailable: d
+                                                                .videoAvailable,
+                                                            isRelaunch:
+                                                                d.isRelaunch,
+                                                            stripe_id:
+                                                                SubcriptionCheck!
+                                                                    .stripe_id,
+                                                            endDate:
+                                                                SubcriptionCheck!
+                                                                    .expiryDate)
+                                                      ],
+                                                    ),
+                                                  ).whenComplete(() {
+                                                    print('completed');
+                                                    _getSubcriptionDetails();
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 6),
+                                                  backgroundColor: Colors.white,
+                                                  shadowColor:
+                                                      Colors.transparent,
+                                                  foregroundColor: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                ),
+                                                child: const Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      'Cancel Subcription',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            218,
+                                                            55,
+                                                            55), // Text is black on white/gradient background
                                                       ),
                                                     ),
+                                                    SizedBox(width: 4),
+                                                    Icon(
+                                                      Icons.arrow_forward,
+                                                      size: 16,
+                                                      color: Color.fromARGB(
+                                                          255, 218, 55, 55),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            : SizedBox()
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              // Plan Details Button (Blue)
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SubscriptionPlanCard(
+                                                                plandata: d,
+                                                                isMonthly:
+                                                                    isMonthly,
+                                                                isMonthlyBuyCheck:
+                                                                    isMonthlyBuyCheck,
+                                                                detailsImage:
+                                                                    detailsImage,
+                                                              )));
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: const Color(
+                                                      0xFF0000D6), // Deep blue color
+                                                  foregroundColor: Colors.white,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 6),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
-                                      ],
-                                    ),
+                                                ),
+                                                child: const Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: const [
+                                                    Text(
+                                                      'Plan Details',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 4),
+                                                    Icon(
+                                                      Icons.arrow_forward,
+                                                      size: 16,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                  width:
+                                                      16), // Space between buttons
+                                              d.name == "Free"
+                                                  ? const SizedBox()
+                                                  : isMonthlyBuyCheck
+                                                      ? const SizedBox()
+                                                      : Flexible(
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              showModalBottomSheet(
+                                                                context:
+                                                                    context,
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                builder:
+                                                                    (context) =>
+                                                                        Wrap(
+                                                                  children: [
+                                                                    ChooseSubcriptionPlan(
+                                                                        id: d
+                                                                            .id,
+                                                                        name: d
+                                                                            .name,
+                                                                        description:
+                                                                            d.description ??
+                                                                                "",
+                                                                        price: isMonthly
+                                                                            ? d.priceMonthly?.toStringAsFixed(2) ??
+                                                                                '0.00'
+                                                                            : d.priceAnnually?.toStringAsFixed(2) ??
+                                                                                '0.00',
+                                                                        isMonthly:
+                                                                            isMonthly,
+                                                                        maxHuntsTeam: d
+                                                                            .maxHuntTeams,
+                                                                        maxChallenges: d
+                                                                            .maxChallengeItems,
+                                                                        maxcreatedItem: d
+                                                                            .maxCreatedItems,
+                                                                        maxhuntitem: d
+                                                                            .maxHuntItems,
+                                                                        purchased: d
+                                                                            .maxPurchasedItems,
+                                                                        image:
+                                                                            image,
+                                                                        maxHunts: d
+                                                                            .maxHunts,
+                                                                        maxChallenge: d
+                                                                            .maxChallenge,
+                                                                        videoAvailable: d
+                                                                            .videoAvailable,
+                                                                        isRelaunch:
+                                                                            d.isRelaunch),
+                                                                  ],
+                                                                ),
+                                                              ).whenComplete(
+                                                                  () {
+                                                                print(
+                                                                    'completed');
+                                                                _getSubcriptionDetails();
+                                                              });
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          8,
+                                                                      vertical:
+                                                                          6),
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              shadowColor: Colors
+                                                                  .transparent,
+                                                              foregroundColor:
+                                                                  Colors.white,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                              ),
+                                                            ),
+                                                            child: const Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: const [
+                                                                Text(
+                                                                  'Buy Plan',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Colors
+                                                                        .black, // Text is black on white/gradient background
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                    width: 4),
+                                                                Icon(
+                                                                    Icons
+                                                                        .arrow_forward,
+                                                                    size: 16,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                            ],
+                                          ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     )
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            );
+          },
         ));
   }
 
@@ -929,17 +988,21 @@ class _SubcriptionState extends State<Subcription> {
           selectedPlan = filteredPlans.first; // Default to first item
         }
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF0000A0) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
+      child: SizedBox(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFF0000A0) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),

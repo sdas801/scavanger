@@ -345,6 +345,21 @@ class _HomeScreenBodyState extends State<HomeScreenBody>
   bool _isWidgetActive = true; // Track if widget is active and visible
   bool _isRouteCovered = false; // Track if route is covered by another route
 
+
+  void _onTabControllerChange() {
+    if (!mounted || _tabController == null) return; // Check mounted FIRST
+    
+    setState(() {
+      _initialIndex = _tabController?.index ?? 0;
+    });
+    
+    if (_tabController!.indexIsChanging) {
+      PageStorage.of(context)?.writeState(context, _tabController!.index);
+    }
+    _handleTabChange();
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -358,16 +373,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody>
       initialIndex: widget.selectedTab,
     );
 
-    _tabController!.addListener(() {
-      if (mounted)
-        setState(() {
-          _initialIndex = _tabController?.index ?? 0;
-        });
-      if (_tabController!.indexIsChanging) {
-        PageStorage.of(context)?.writeState(context, _tabController!.index);
-      }
-      _handleTabChange();
-    });
+    _tabController!.addListener(_onTabControllerChange);
 
     // Call initial data load and start timer after controller is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -745,7 +751,10 @@ class _HomeScreenBodyState extends State<HomeScreenBody>
     HomeScreenBody.routeObserver.unsubscribe(this);
     WidgetsBinding.instance.removeObserver(this);
     _stopPeriodicRefresh();
+
+    _tabController?.removeListener(_onTabControllerChange);
     _tabController?.dispose();
+    
     super.dispose();
   }
 

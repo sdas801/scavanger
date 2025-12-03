@@ -511,7 +511,7 @@ class _CreateHunt3rdPageState extends State<CreateHunt3rdPage> {
                           isScrollControlled: true,
                           constraints: BoxConstraints.tight(Size(
                               MediaQuery.of(context).size.width,
-                              MediaQuery.of(context).size.height * .5)),
+                              MediaQuery.of(context).size.height * .55)),
                           builder: (context) => CreateHuntFormManualAdd(
                             gameId: widget.gameId,
                             gameuniqueId: widget.gameuniqueId,

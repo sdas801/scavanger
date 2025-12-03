@@ -20,7 +20,7 @@ class videoListPage extends StatefulWidget {
 }
 
 class _VideoListPage extends State<videoListPage> {
-  late TabController _tabController;
+  // late TabController _tabController;
   bool _isLoading = false;
   List<HuntItemList> items = [];
   List<ChallengeList> challengeVideoList = [];

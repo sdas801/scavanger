@@ -217,15 +217,16 @@ class _AddItemManualyState extends State<AddItemManualy> {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color.fromARGB(0, 245, 243, 243),
-      body: Container(
-        height: 460,
-        child: Padding(
-          padding: const EdgeInsets.all(0.0),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: screenSize.width,
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: screenSize.width,
               height: MediaQuery.of(context).size.height / 1,
-              decoration: const ShapeDecoration(
+              
+              child: DecoratedBox(
+                decoration: const ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -234,20 +235,19 @@ class _AddItemManualyState extends State<AddItemManualy> {
                   ),
                 ),
               ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 40),
-                      // Row for Image & Item Name
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Image Picker
-                          Container(
-                            child: Column(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 40),
+                        // Row for Image & Item Name
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Image Picker
+                            Column(
                               children: [
                                 GestureDetector(
                                   onTap: () => _showPicker(context: context),
@@ -309,87 +309,98 @@ class _AddItemManualyState extends State<AddItemManualy> {
                                         )),
                               ],
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          // Item Name Input
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomTextField(
-                                  controller: _itemNameController,
-                                  labelText: 'Item Name',
-                                  hintText: 'Enter item name',
-                                  maxLines: 1,
-                                  fillColor:
-                                      const Color.fromRGBO(242, 242, 242, 1),
-                                  borderRadius: 12,
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(
-                                        _maxLength),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left:
-                                          190), // Add spacing between text field and counter
-                                  child: Text(
-                                    '$_currentLength/$_maxLength',
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
+                            const SizedBox(width: 10),
+                            // Item Name Input
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomTextField(
+                                    controller: _itemNameController,
+                                    labelText: 'Item Name',
+                                    hintText: 'Enter item name',
+                                    maxLines: 1,
+                                    fillColor:
+                                        const Color.fromRGBO(242, 242, 242, 1),
+                                    borderRadius: 12,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(
+                                          _maxLength),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Text(
+                                          '$_currentLength/$_maxLength',
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                            // backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                if (_isNameError)
-                                  const Text(
-                                    'Please enter a valid name',
-                                    style: TextStyle(
-                                        color: Colors.red, fontSize: 12),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      // Description Input
-                      CustomTextField(
-                        controller: _descriptionController,
-                        labelText: 'Description',
-                        hintText: 'Enter item description',
-                        maxLines: 3,
-                        fillColor: const Color.fromRGBO(242, 242, 242, 1),
-                        borderRadius: 12,
-                      ),
-                      const SizedBox(height: 20),
-                      // Add Item Button
-                      _isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : ElevatedButton(
-                              onPressed: () {
-                                if (widget.itemId != null) {
-                                  _updateGameItem();
-                                } else {
-                                  _additemManually();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF153792),
-                                foregroundColor: Colors.white,
-                                minimumSize: const Size(double.infinity, 50),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
+                                  if (_isNameError)
+                                    const Text(
+                                      'Please enter a valid name',
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 12),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    )
+                                ],
                               ),
-                              child: Text(widget.itemId == null
-                                  ? 'Add Item'
-                                  : 'Update Item'),
                             ),
-                    ],
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        // Description Input
+                        CustomTextField(
+                          controller: _descriptionController,
+                          labelText: 'Description',
+                          hintText: 'Enter item description',
+                          maxLines: 3,
+                          fillColor: const Color.fromRGBO(242, 242, 242, 1),
+                          borderRadius: 12,
+                          inputFormatters: [
+                              LengthLimitingTextInputFormatter(100),
+                            ],
+                        ),
+                        const SizedBox(height: 20),
+                        // Add Item Button
+                        _isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : ElevatedButton(
+                                onPressed: () {
+                                  if (widget.itemId != null) {
+                                    _updateGameItem();
+                                  } else {
+                                    _additemManually();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF153792),
+                                  foregroundColor: Colors.white,
+                                  minimumSize: const Size(double.infinity, 50),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                child: Text(widget.itemId == null
+                                    ? 'Add Item'
+                                    : 'Update Item'),
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -523,15 +523,19 @@ class _CreateHunt1stPageState extends State<CreateHunt1stPage> {
                         ],
                       ),
                       const SizedBox(height: 5),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left:
-                                280), // Add spacing between text field and counter
-                        child: Text(
-                          '$_currentLength/$_maxLength',
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
+                      SizedBox(
+                        width: double.infinity,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              '$_currentLength/$_maxLength',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
                         ),
                       ),

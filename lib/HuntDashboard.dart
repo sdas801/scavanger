@@ -81,6 +81,19 @@ class _HuntDashboardState extends State<HuntDashboard>
   bool _isWidgetActive = true;
   bool _isRefreshing = false;
 
+void _onTabControllerChange() {
+    if (!mounted) return; // Check mounted FIRST
+    
+    if (_tabController.indexIsChanging) {
+      // Dismiss the keyboard when the tab is changed
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
+    
+    if (_tabController.index == 1) {
+      _unreadChat.value = 0;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -88,15 +101,7 @@ class _HuntDashboardState extends State<HuntDashboard>
     _tabController = TabController(length: 2, vsync: this);
 
     // Add listener to the TabController to unfocus when the tab changes
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
-        // Dismiss the keyboard when the tab is changed
-        FocusManager.instance.primaryFocus?.unfocus();
-      }
-      if (_tabController.index == 1) {
-        _unreadChat.value = 0;
-      }
-    });
+        _tabController.addListener(_onTabControllerChange);
 
     getUserId();
     orientationService.startListening((orientation) {
@@ -121,6 +126,14 @@ class _HuntDashboardState extends State<HuntDashboard>
     _stopPeriodicRefresh();
     _timer?.cancel();
     _timer2?.cancel();
+
+    try {
+      _tabController.removeListener(_onTabControllerChange);
+      _tabController.dispose();
+    } catch (e) {
+      log("Error disposing TabController: $e");
+    }
+
     try {
       _controller?.dispose();
     } catch (e) {}

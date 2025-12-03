@@ -74,18 +74,23 @@ class _AddItemFromLibraryState extends State<AddItemFromLibrary>
     // getMyItemsApi("");
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
+      if (!mounted) return;
       if (_tabController.indexIsChanging) {
-        if (mounted)
+        if (mounted) {
           setState(() {
             _searchController.clear();
           });
+        }
       }
     });
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(() {});
     _tabController.dispose();
+     _scrollController.dispose();
+  _searchController.dispose();
     super.dispose();
   }
 

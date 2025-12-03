@@ -235,19 +235,15 @@ class _CreateHuntFormManualAddState extends State<CreateHuntFormManualAdd> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       backgroundColor: const Color.fromARGB(0, 245, 243, 243),
       body: SingleChildScrollView(
-        child: Container(
-          height: 445,
-          child: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Center(
-              child: Container(
-                width: MediaQuery.of(context)
-                    .size
-                    .width, // 80% of the screen width
-                height: MediaQuery.of(context).size.height / 1,
+        child: SizedBox(
+          height: screenSize.width,
+          child: Center(
+            child: SizedBox(
+              width: screenSize.width,
+              height: MediaQuery.of(context).size.height / 1,
+              child: DecoratedBox(
                 decoration: const ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -257,91 +253,87 @@ class _CreateHuntFormManualAddState extends State<CreateHuntFormManualAdd> {
                     ),
                   ),
                 ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 40),
 
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Row(
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _showPicker(context: context);
-                                    },
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 27, 56, 150)),
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        color: const Color.fromRGBO(
-                                            242, 242, 242, 1),
-                                      ),
-                                      child: _isLoading1
-                                          ? const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            )
-                                          : uplodedImgUrl == '' ||
-                                                  uplodedImgUrl == null
-                                              ? const Center(
-                                                  child: Icon(
-                                                      Icons
-                                                          .add_photo_alternate_outlined,
-                                                      size: 50,
-                                                      color: Colors.grey))
-                                              : ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Image.network(
-                                                    uplodedImgUrl,
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (context,
-                                                        error, stackTrace) {
-                                                      return const Center(
-                                                        child: Icon(Icons.image,
-                                                            size: 50,
-                                                            color: Colors.grey),
-                                                      );
-                                                    },
-                                                  )),
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () => _showPicker(context: context),
+                                  child: Container(
+                                    height: 100,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 27, 56, 150)),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: const Color.fromRGBO(
+                                          242, 242, 242, 1),
                                     ),
+                                    child: _isLoading1
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : uplodedImgUrl == '' ||
+                                                uplodedImgUrl == null
+                                            ? const Center(
+                                                child: Icon(
+                                                    Icons
+                                                        .add_photo_alternate_outlined,
+                                                    size: 50,
+                                                    color: Colors.grey))
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.network(
+                                                  uplodedImgUrl,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return const Center(
+                                                      child: Icon(Icons.image,
+                                                          size: 50,
+                                                          color: Colors.grey),
+                                                    );
+                                                  },
+                                                )),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  galleryFile == null
-                                      ? const Text("Image (optional)",
-                                          style: const TextStyle(
-                                            color: Color(
-                                                0xFF153792), // Custom label color
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ))
-                                      : const Text("Change image",
-                                          style: const TextStyle(
-                                            color: Color(
-                                                0xFF153792), // Custom label color
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          )),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                galleryFile == null
+                                    ? const Text("Image (optional)",
+                                        style: const TextStyle(
+                                          color: Color(
+                                              0xFF153792), // Custom label color
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ))
+                                    : const Text("Change image",
+                                        style: const TextStyle(
+                                          color: Color(
+                                              0xFF153792), // Custom label color
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                              ],
                             ),
                             const SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.8,
+                            Expanded(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
                                     controller: _itemNameController,
@@ -360,15 +352,20 @@ class _CreateHuntFormManualAddState extends State<CreateHuntFormManualAdd> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left:
-                                            170), // Add spacing between text field and counter
-                                    child: Text(
-                                      '$_currentLength/$_maxLength',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          '$_currentLength/$_maxLength',
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -379,20 +376,18 @@ class _CreateHuntFormManualAddState extends State<CreateHuntFormManualAdd> {
                                           color: Colors.red, fontSize: 12),
                                     ),
                                   const SizedBox(
-                                    height: 40,
+                                    height: 20,
                                   )
                                 ],
                               ),
                             )
                           ],
                         ),
-                      ),
-                      // Add your icon or image here
+                        // Add your icon or image here
 
-                      const SizedBox(height: 20),
-                      Container(
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: CustomTextField(
+                        const SizedBox(height: 20),
+                      // Description Input
+                        CustomTextField(
                           controller: _descriptionController,
                           labelText: 'Description',
                           hintText: 'Description',
@@ -403,29 +398,29 @@ class _CreateHuntFormManualAddState extends State<CreateHuntFormManualAdd> {
                             LengthLimitingTextInputFormatter(100),
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 40),
-                      _isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : ElevatedButton(
-                              onPressed: () {
-                                if (widget.itemId != null) {
-                                  _updateGameItem();
-                                } else {
-                                  _additemManually();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF153792),
-                                foregroundColor: Colors.white,
-                                minimumSize: const Size(double.infinity, 50),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ), //_login,
-                              child: const Text('Add Item'),
-                            ),
-                    ],
+                        const SizedBox(height: 20),
+                        _isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : ElevatedButton(
+                                onPressed: () {
+                                  if (widget.itemId != null) {
+                                    _updateGameItem();
+                                  } else {
+                                    _additemManually();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF153792),
+                                  foregroundColor: Colors.white,
+                                  minimumSize: const Size(double.infinity, 50),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ), //_login,
+                                child: const Text('Add Item'),
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ),
