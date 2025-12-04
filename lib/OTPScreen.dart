@@ -229,8 +229,10 @@ class _OTPScreenState extends State<OTPScreen> {
               // ],
             ),
             body: SingleChildScrollView(
-              child: Container(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
                 color: const Color(0xFF0B00AB),
+                ),
                 child: Column(
                   children: [
                     const SizedBox(height: 40),

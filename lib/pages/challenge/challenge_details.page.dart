@@ -326,17 +326,17 @@ class _ChallengeDetailsState extends State<ChallengeDetails> {
           ),
           isScrollControlled: true,
           builder: (BuildContext context) {
-            return Container(
-              child: Container(
+            return DecoratedBox(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(45),
+                  topRight: Radius.circular(45),
+                ),
+              ),
+              child: Padding(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45),
-                  ),
-                ),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(14.0),
@@ -344,7 +344,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         // Close Button
-                        Container(
+                        Align(
                           alignment: Alignment.topRight,
                           child: TextButton(
                             onPressed: () {
@@ -359,7 +359,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails> {
                           ),
                         ),
 
-                        Container(
+                        DecoratedBox(
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -369,130 +369,136 @@ class _ChallengeDetailsState extends State<ChallengeDetails> {
                           ),
                           child: Screenshot(
                             controller: screenshotController,
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              color: Colors.white,
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    padding: const EdgeInsets.only(
-                                        top: 20.0, left: 20.0, right: 20.0),
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/logo.jpg"),
-                                        fit: BoxFit.cover,
-                                      ),
+                            child: DecoratedBox(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    gameName,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Color(0xFF153792),
-                                      fontSize: 22,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  qrCode != ''
-                                      ? Image.memory(
-                                          base64Decode(qrCode),
-                                          height: 180,
-                                          fit: BoxFit.fill,
-                                        )
-                                      : Image.asset(
-                                          'assets/images/qrcode.png', // Update the image asset accordingly
-                                          height: 180,
-                                          fit: BoxFit.fill,
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, left: 20, right: 20),
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.asset(
+                                          "assets/images/logo.jpg",
+                                          fit: BoxFit.cover,
                                         ),
-                                  const Text(
-                                    "Scan the QR Code to Join The quest",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF153792),
-                                      fontSize: 14,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 25),
-                                  const Text(
-                                    "Or",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF153792),
-                                      fontSize: 20,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  const Text(
-                                    "Use this code to enter quest on your app",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF153792),
-                                      fontSize: 14,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: true,
-                                    child: PinCodeTextField(
-                                      appContext: context,
-                                      length: 6,
-                                      obscureText: false,
-                                      animationType: AnimationType.fade,
-                                      autoDisposeControllers: false,
-                                      pinTheme: PinTheme(
-                                        shape: PinCodeFieldShape.circle,
-                                        borderRadius: BorderRadius.circular(2),
-                                        fieldHeight: 40,
-                                        fieldWidth: 40,
-                                        activeFillColor: Colors.white,
-                                        activeColor: Colors.blue,
-                                        selectedColor: Colors.blue,
-                                        inactiveColor: const Color.fromARGB(
-                                            255, 251, 246, 246),
-                                        inactiveFillColor: Colors.white,
-                                        selectedFillColor: const Color.fromARGB(
-                                            255, 250, 251, 252),
                                       ),
-                                      animationDuration:
-                                          const Duration(milliseconds: 300),
-                                      backgroundColor: Colors.transparent,
-                                      enableActiveFill: true,
-                                      errorAnimationController: errorController,
-                                      controller: textEditingController,
-                                      onCompleted: (v) {},
-                                      onChanged: (value) {
-                                        setState(() {
-                                          currentText = value;
-                                        });
-                                      },
-                                      beforeTextPaste: (text) {
-                                        return true;
-                                      },
                                     ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                ],
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      gameName,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Color(0xFF153792),
+                                        fontSize: 22,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    qrCode != ''
+                                        ? Image.memory(
+                                            base64Decode(qrCode),
+                                            height: 180,
+                                            fit: BoxFit.fill,
+                                          )
+                                        : Image.asset(
+                                            'assets/images/qrcode.png', // Update the image asset accordingly
+                                            height: 180,
+                                            fit: BoxFit.fill,
+                                          ),
+                                    const Text(
+                                      "Scan the QR Code to Join The quest",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF153792),
+                                        fontSize: 14,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 25),
+                                    const Text(
+                                      "Or",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF153792),
+                                        fontSize: 20,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    const Text(
+                                      "Use this code to enter quest on your app",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF153792),
+                                        fontSize: 14,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    IgnorePointer(
+                                      ignoring: true,
+                                      child: PinCodeTextField(
+                                        appContext: context,
+                                        length: 6,
+                                        obscureText: false,
+                                        animationType: AnimationType.fade,
+                                        autoDisposeControllers: false,
+                                        pinTheme: PinTheme(
+                                          shape: PinCodeFieldShape.circle,
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                          fieldHeight: 40,
+                                          fieldWidth: 40,
+                                          activeFillColor: Colors.white,
+                                          activeColor: Colors.blue,
+                                          selectedColor: Colors.blue,
+                                          inactiveColor: const Color.fromARGB(
+                                              255, 251, 246, 246),
+                                          inactiveFillColor: Colors.white,
+                                          selectedFillColor:
+                                              const Color.fromARGB(
+                                                  255, 250, 251, 252),
+                                        ),
+                                        animationDuration:
+                                            const Duration(milliseconds: 300),
+                                        backgroundColor: Colors.transparent,
+                                        enableActiveFill: true,
+                                        errorAnimationController:
+                                            errorController,
+                                        controller: textEditingController,
+                                        onCompleted: (v) {},
+                                        onChanged: (value) {
+                                          setState(() {
+                                            currentText = value;
+                                          });
+                                        },
+                                        beforeTextPaste: (text) {
+                                          return true;
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

@@ -29,7 +29,7 @@ class CreateNewTeam extends StatefulWidget {
       required this.gameid});
 
   @override
-  _CreateNewTeamState createState() => _CreateNewTeamState();
+  State<CreateNewTeam> createState() => _CreateNewTeamState();
 }
 
 class _CreateNewTeamState extends State<CreateNewTeam> {
