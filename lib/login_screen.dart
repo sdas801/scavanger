@@ -119,130 +119,136 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(235, 255, 255, 255),
       body: LayoutBuilder(
-        builder:(context, constraints) {
-          var width = constraints.maxWidth;
-          var height = constraints.maxHeight;
+        builder: (context, constraints) {
+          final double width = constraints.maxWidth;
+          final double height = constraints.maxHeight;
+          final double imageWidth = width * 0.30;
+          final double imageHeight = height * 0.25;
+
           return SafeArea(
             child: SizedBox.expand(
               child: Stack(
                 children: [
                   Positioned.fill(
-                  child: Image.asset(
-                    "assets/images/bg_Screen.png",
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      "assets/images/bg_Screen.png",
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
                   ),
-                ),
-                
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(height: height * (5.55/100)),
-
-                        Image(
-                            image: const AssetImage('assets/images/1 1.png'),
-                            height: height * (18/100),
-                            width: width * (32/100)),
-                        SizedBox(height: height * (3.13/100)),
-                        const Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Welcome                                     ',
-                                style: TextStyle(
-                                  color: Color(0xFF153792),
-                                  fontSize: 34,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w800,
-                                  height: 0,
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image(
+                              image: const AssetImage('assets/images/1 1.png'),
+                              height: imageHeight,
+                              width: imageWidth),
+                          const Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      'Welcome                                     ',
+                                  style: TextStyle(
+                                    color: Color(0xFF153792),
+                                    fontSize: 34,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w800,
+                                    height: 0,
+                                  ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          const Text(
+                            "If not signup yet, we'll redirect you to register page",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 18, color: Color(0xFF82929D)),
+                          ),
+                          const SizedBox(height: 20),
+                          CustomTextField(
+                            controller: _emailController,
+                            labelText: 'Email',
+                            hintText: 'Enter your Email',
+                            keyboardType: TextInputType.emailAddress,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 20),
+                          CustomTextField(
+                            controller: _passwordController,
+                            labelText: 'Password',
+                            hintText: 'Enter your Password',
+                            obscureText: true,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 10),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ForgotPassword()));
+                                //   _forgotPassword(context);
+                              },
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.grey),
+                              child: const Text('Forgot Password?'),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          _isLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    _login(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF0B00AB),
+                                    foregroundColor: Colors.white,
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ), //_login,
+                                  child: const Text('Sign In'),
+                                ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Not yet Registered?'),
+                              TextButton(
+                                onPressed: () {
+                                  // Handle login action
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignUpScreen()),
+                                  );
+                                },
+                                style: TextButton.styleFrom(
+                                  foregroundColor:
+                                      const Color.fromARGB(255, 4, 218, 229),
+                                ),
+                                child: const Text('Signup'),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 0),
-                        const Text(
-                          "If not signup yet, we'll redirect you to register page",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, color: Color(0xFF82929D)),
-                        ),
-                        const SizedBox(height: 20),
-                        CustomTextField(
-                          controller: _emailController,
-                          labelText: 'Email',
-                          hintText: 'Enter your Email',
-                          keyboardType: TextInputType.emailAddress,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(height: 20),
-                        CustomTextField(
-                          controller: _passwordController,
-                          labelText: 'Password',
-                          hintText: 'Enter your Password',
-                          obscureText: true,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ForgotPassword()));
-                              //   _forgotPassword(context);
-                            },
-                            style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                            child: const Text('Forgot Password?'),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        _isLoading
-                            ? const Center(child: CircularProgressIndicator())
-                            : ElevatedButton(
-                                onPressed: () {
-                                  _login(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF0B00AB),
-                                  foregroundColor: Colors.white,
-                                  minimumSize: const Size(double.infinity, 50),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ), //_login,
-                                child: const Text('Sign In'),
-                              ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('Not yet Registered?'),
-                            TextButton(
-                              onPressed: () {
-                                // Handle login action
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignUpScreen()),
-                                );
-                              },
-                              style: TextButton.styleFrom(
-                                foregroundColor: const Color.fromARGB(255, 4, 218, 229),
-                              ),
-                              child: const Text('Signup'),
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),],
+                ],
               ),
             ),
           );

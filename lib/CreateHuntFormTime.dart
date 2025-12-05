@@ -19,7 +19,6 @@ class CreateHuntFormTime extends StatefulWidget {
   _CreateHuntFormTimeState createState() => _CreateHuntFormTimeState();
 }
 
-
 class _CreateHuntFormTimeState extends State<CreateHuntFormTime> {
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
@@ -32,8 +31,8 @@ class _CreateHuntFormTimeState extends State<CreateHuntFormTime> {
 
   DateTime? _selectedDate2;
   TimeOfDay? _selectedTime2;
-    bool isCheckedStartTime = true;
-  bool isCheckedEndTime = true;
+  bool isCheckedStartTime = false;
+  bool isCheckedEndTime = false;
 
   @override
   void initState() {
@@ -147,10 +146,9 @@ class _CreateHuntFormTimeState extends State<CreateHuntFormTime> {
       "start_time": formattedStartDateString,
       "end_time": formattedEndDateString,
       "duration": timeDiff(),
-
-      "is_auto_start":isCheckedEndTime,
-       "is_auto_end":isCheckedStartTime
-    };   
+      "is_auto_start": isCheckedEndTime,
+      "is_auto_end": isCheckedStartTime
+    };
 
     ApiService.setGameTime(reqData).then((res) async {
       try {
@@ -421,9 +419,7 @@ class _CreateHuntFormTimeState extends State<CreateHuntFormTime> {
                     },
                   ),
 
-
-
-   Row(
+                  Row(
                     children: [
                       Checkbox(
                         value: isCheckedStartTime,
@@ -441,7 +437,6 @@ class _CreateHuntFormTimeState extends State<CreateHuntFormTime> {
                       )
                     ],
                   ),
-
 
                   const SizedBox(height: 20),
                   CustomTextField(
@@ -508,7 +503,7 @@ class _CreateHuntFormTimeState extends State<CreateHuntFormTime> {
                       }
                     },
                   ),
-   Row(
+                  Row(
                     children: [
                       Checkbox(
                         value: isCheckedEndTime,

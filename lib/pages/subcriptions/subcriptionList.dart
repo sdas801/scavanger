@@ -527,7 +527,8 @@ class _SubcriptionState extends State<Subcription> {
         padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            var width = constraints.maxWidth;
+            final double width = constraints.maxWidth;
+            final double imageWidth = width * 0.8;
             return SizedBox(
               height: 210,
               child: DecoratedBox(
@@ -548,7 +549,7 @@ class _SubcriptionState extends State<Subcription> {
                       child: Row(
                         children: [
                           SizedBox(
-                            width: width * (15 / 100),
+                            width: 50,
                             child: Center(
                                 child: Column(
                               children: [
@@ -556,9 +557,8 @@ class _SubcriptionState extends State<Subcription> {
                                   'assets/images/Award.png',
                                   fit: BoxFit
                                       .contain, // Adjust based on your needs
-                                  width: width *
-                                      (15 /
-                                          100), // Optional: control image size
+                                  width:
+                                      imageWidth, // Optional: control image size
                                 ),
                                 const SizedBox(
                                   height: 10,
@@ -574,8 +574,8 @@ class _SubcriptionState extends State<Subcription> {
                               ],
                             )),
                           ),
-                          SizedBox(
-                            width: width * (5 / 100),
+                          const SizedBox(
+                            width: 20,
                           ),
                           Expanded(
                             child: Column(
