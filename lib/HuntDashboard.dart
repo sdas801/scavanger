@@ -76,19 +76,22 @@ class _HuntDashboardState extends State<HuntDashboard>
   late TabController _tabController;
   final ValueNotifier<int> _unreadChat = ValueNotifier<int>(0);
 
+  //listeners session
+  bool _hasShownEndToast = false;
+
   // Lifecycle management variables
   bool _isAppInForeground = true;
   bool _isWidgetActive = true;
   bool _isRefreshing = false;
 
-void _onTabControllerChange() {
+  void _onTabControllerChange() {
     if (!mounted) return; // Check mounted FIRST
-    
+
     if (_tabController.indexIsChanging) {
       // Dismiss the keyboard when the tab is changed
       FocusManager.instance.primaryFocus?.unfocus();
     }
-    
+
     if (_tabController.index == 1) {
       _unreadChat.value = 0;
     }
@@ -101,7 +104,7 @@ void _onTabControllerChange() {
     _tabController = TabController(length: 2, vsync: this);
 
     // Add listener to the TabController to unfocus when the tab changes
-        _tabController.addListener(_onTabControllerChange);
+    _tabController.addListener(_onTabControllerChange);
 
     getUserId();
     orientationService.startListening((orientation) {
@@ -115,6 +118,9 @@ void _onTabControllerChange() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _getgameDetails();
+        if (_shouldRunTimer()) {
+          _startGameStatusMonitoring();
+        }
       }
     });
   }
@@ -126,6 +132,7 @@ void _onTabControllerChange() {
     _stopPeriodicRefresh();
     _timer?.cancel();
     _timer2?.cancel();
+    _statusCheckTimer?.cancel();
 
     try {
       _tabController.removeListener(_onTabControllerChange);
@@ -154,6 +161,7 @@ void _onTabControllerChange() {
     log("⏸ HuntDashboard deactivated - stopping API calls");
     _isWidgetActive = false;
     _stopPeriodicRefresh();
+    _statusCheckTimer?.cancel();
     super.deactivate();
   }
 
@@ -168,6 +176,7 @@ void _onTabControllerChange() {
         log("🔄 activate - refreshing data and starting timer");
         _NewmyGameItemList(0);
         _startPeriodicRefresh();
+        _startGameStatusMonitoring();
       }
     });
   }
@@ -181,6 +190,7 @@ void _onTabControllerChange() {
         _isAppInForeground = true;
         if (_shouldRunTimer()) {
           _startPeriodicRefresh();
+          _startGameStatusMonitoring();
         }
         break;
       case AppLifecycleState.paused:
@@ -189,11 +199,13 @@ void _onTabControllerChange() {
         log(" App went to background - stopping periodic refresh");
         _isAppInForeground = false;
         _stopPeriodicRefresh();
+        _statusCheckTimer?.cancel();
         break;
       case AppLifecycleState.detached:
         log(" App detached - stopping periodic refresh");
         _isAppInForeground = false;
         _stopPeriodicRefresh();
+        _statusCheckTimer?.cancel();
         break;
     }
   }
@@ -375,19 +387,52 @@ void _onTabControllerChange() {
           if (jsonResponseData.items.isNotEmpty) {
             log("✅ Game items updated - ${jsonResponseData.items.length} items");
             items = jsonResponseData.items;
-            // log("this is the item for cal the api >>>>>>>>>> $items");
             if (mounted) setState(() {});
           }
 
-          if (jsonResponseData.isEnd) {
-            log("🏁 Game ended - navigating to leaderboard");
+          // ✅ CHECK IF SESSION/HUNT HAS ENDED
+          if (jsonResponseData.isEnd && !_hasShownEndToast) {
+            _hasShownEndToast = true; // Prevent multiple toasts
+            log("🏁 Game ended - showing toast and navigating to leaderboard");
+
             _stopPeriodicRefresh();
             _timer2?.cancel();
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        LeaderboardPage(gameId: widget.gameId)));
+
+            // Show toast notification
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Center(
+                  child: Text(
+                    "The hunt end",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+
+            // Wait a moment for toast to be visible, then navigate
+            await Future.delayed(const Duration(seconds: 2));
+
+            if (mounted) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          LeaderboardPage(gameId: widget.gameId)));
+            }
           }
         }
       } catch (e) {
@@ -401,6 +446,77 @@ void _onTabControllerChange() {
       setState(() {
         _isLoading = false;
       });
+    }
+  }
+
+  Timer? _statusCheckTimer;
+  String _currentGameStatus = "0";
+
+  void _startGameStatusMonitoring() {
+    _statusCheckTimer?.cancel();
+
+    if (!_shouldRunTimer()) return;
+
+    log("🔍 Starting game status monitoring");
+
+    _statusCheckTimer =
+        Timer.periodic(const Duration(seconds: 5), (timer) async {
+      if (mounted && _shouldRunTimer()) {
+        await _checkGameStatusDirect();
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  Future<void> _checkGameStatusDirect() async {
+    try {
+      final statusResponse = await ApiService.gameDetails(widget.gameId);
+
+      if (!mounted) return;
+
+      if (statusResponse.success) {
+        final gameDetails =
+            ChallangeDetailsModel.fromJson(statusResponse.response);
+        final newStatus = gameDetails.status ?? "0";
+
+        // Check if game has ended (status changed to "2")
+        if (newStatus == "2" &&
+            _currentGameStatus != "2" &&
+            !_hasShownEndToast) {
+          _hasShownEndToast = true;
+          _stopPeriodicRefresh();
+          _statusCheckTimer?.cancel();
+          _timer2?.cancel();
+
+          log("🏁 Game status changed to ended - showing toast");
+
+          // Show toast
+          Fluttertoast.showToast(
+            msg: "Session Ended",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            backgroundColor: const Color(0xFF0B00AB),
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+
+          // Wait a moment for toast to be visible, then navigate
+          await Future.delayed(const Duration(seconds: 2));
+
+          if (mounted) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        LeaderboardPage(gameId: widget.gameId)));
+          }
+        }
+
+        _currentGameStatus = newStatus;
+      }
+    } catch (e) {
+      log("❌ Error checking game status: $e");
     }
   }
 
@@ -878,7 +994,7 @@ void _onTabControllerChange() {
                                     width: (MediaQuery.of(context).size.width -
                                         120),
                                     height: 200,
-                                    padding: EdgeInsets.only(left: 3),
+                                    padding: const EdgeInsets.only(left: 3),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -1104,7 +1220,7 @@ void _onTabControllerChange() {
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF153792),
+                                  backgroundColor: const Color(0xFF153792),
                                   foregroundColor: Colors.white,
                                   minimumSize: const Size(double.infinity, 50),
                                   shape: RoundedRectangleBorder(
